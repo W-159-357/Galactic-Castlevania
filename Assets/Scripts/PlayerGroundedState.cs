@@ -22,12 +22,17 @@ public class PlayerGroundedState : PlayerState
     {
         base.Update();
 
+        if (Input.GetKey(KeyCode.Mouse0))
+        {
+            player.StateMachine.ChangeState(player.PrimaryAttack);
+        }
+
         if (!player.IsGroundDetected())
         {
             player.StateMachine.ChangeState(player.AirState);
         }
 
-        if (Input.GetKeyDown(KeyCode.Space) && player.IsGroundDetected())
+        if ((Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.UpArrow)) && player.IsGroundDetected())
         {
             player.StateMachine.ChangeState(player.JumpState);
         }

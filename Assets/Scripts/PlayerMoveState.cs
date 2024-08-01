@@ -24,7 +24,7 @@ public class PlayerMoveState : PlayerGroundedState
 
         player.SetVelocity(xInput * player.moveSpeed, rb.velocity.y);
 
-        if (xInput == 0)    // 输入等于0，就切换到站立状态
+        if (xInput == 0 || player.IsWallDetetected())    // 输入等于0 或 移动的时候与墙体接触，就切换到站立状态
         {
             player.StateMachine.ChangeState(player.IdleState);
         }

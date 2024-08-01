@@ -11,6 +11,8 @@ public class PlayerIdleState : PlayerGroundedState
     public override void Enter()
     {
         base.Enter();
+
+        player.ZeroVelocity();
     }
 
     public override void Exit()
@@ -21,7 +23,11 @@ public class PlayerIdleState : PlayerGroundedState
     public override void Update()
     {
         base.Update();
-        if (xInput != 0)     // // 输入不为0，就切换到移动状态
+
+        if (xInput == player.FacingDir && player.IsWallDetetected())
+            return;
+
+        if (xInput != 0 && !player.IsBusy)     // // 输入不为0，就切换到移动状态
         {
             player.StateMachine.ChangeState(player.MoveState);
         }

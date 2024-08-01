@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
 using Unity.VisualScripting.FullSerializer;
@@ -12,9 +12,11 @@ public class PlayerState
     protected Rigidbody2D rb;
 
     protected float xInput;
+    protected float yInput;
     private string animBoolName;
 
-    protected float stateTime;
+    protected float stateTime;      // 状态定时器
+    protected bool triggerCalled;   // 攻击触发器
 
     public PlayerState(Player player, PlayerStateMachine stateMachine, string animBoolName)
     {
@@ -27,6 +29,7 @@ public class PlayerState
     {
         player.Anim.SetBool(animBoolName, true);
         rb = player.Rb;
+        triggerCalled = false;
     }
 
     public virtual void Update()
@@ -34,11 +37,17 @@ public class PlayerState
         stateTime -= Time.deltaTime;
 
         xInput = Input.GetAxisRaw("Horizontal");
+        yInput = Input.GetAxisRaw("Vertical");
         player.Anim.SetFloat("yVelocity", rb.velocity.y);
     }
 
     public virtual void Exit()
     {
         player.Anim.SetBool(animBoolName, false);
+    }
+
+    public virtual void AnimationFinishTrigger()
+    {
+        triggerCalled = true;
     }
 }

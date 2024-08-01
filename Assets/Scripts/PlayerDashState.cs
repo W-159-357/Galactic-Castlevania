@@ -26,6 +26,11 @@ public class PlayerDashState : PlayerState
     {
         base.Update();
 
+        if (!player.IsGroundDetected() && player.IsWallDetetected())
+        {
+            player.StateMachine.ChangeState(player.WallSlideState);
+        }
+
         player.SetVelocity(player.dashSpeed * player.DashDir, 0);   // 设为0，保证冲刺的时候y轴不变
 
         if (stateTime < 0)
